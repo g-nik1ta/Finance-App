@@ -2,7 +2,7 @@
 
 .aside_menu {
     width: 300px;
-    background: linear-gradient(0, rgba(18, 191, 107, 0.27) 0%, rgba(18, 191, 107, 0.1) 20%, rgba(0,0,0,0) 100%);
+    background: linear-gradient(0, rgba(18, 191, 107, 0.27) 0%, rgba(18, 191, 107, 0.1) 20%, rgba(0, 0, 0, 0) 100%);
     border-right: 1px solid #212328;
     height: 100vh;
     position: fixed;
@@ -92,6 +92,123 @@
 
                 &::before {
                     background-color: $green;
+                }
+            }
+        }
+    }
+
+    .select_box {
+        margin-top: auto;
+        padding: 0 28px;
+        position: relative;
+
+        .avatar {
+            max-width: 32px;
+            max-height: 32px;
+            margin-right: 12px;
+        }
+
+        .name {
+            font-size: 18px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            margin-right: 4px;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            display: -webkit-box;
+            text-overflow: ellipsis;
+        }
+
+        .current_value {
+            z-index: 1;
+            user-select: none;
+            padding: 8px 12px;
+            width: 100%;
+            border: 2px solid $green;
+            border-radius: 32px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: all .25s;
+
+            @media (hover: hover) {
+                &:hover .arrow_down path {
+                    fill: $green;
+                }
+            }
+
+            &.open {
+                background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0.15) 100%);
+
+                .arrow_down path {
+                    fill: $green;
+                }
+            }
+
+            .arrow_down {
+                max-width: 16px;
+                max-height: 14px;
+                margin-left: auto;
+                transition: inherit;
+            }
+        }
+
+        .options {
+            position: absolute;
+            bottom: 80%;
+            border: 2px solid;
+            border-radius: 12px;
+            width: calc(100% - 28px * 2);
+            overflow-y: hidden;
+            visibility: hidden;
+            transition: all .3s ease-in-out;
+            opacity: 0;
+            border-color: transparent;
+
+            &.open {
+                bottom: 110%;
+                opacity: 1;
+                visibility: visible;
+                border-color: $green;
+            }
+
+            .option {
+                padding: 8px 12px;
+                width: 100%;
+                display: flex;
+                align-items: center;
+
+                @media (hover: hover) {
+                    &:hover {
+                        cursor: pointer;
+
+                        .name {
+                            color: $green;
+                        }
+
+                        .select_profile path {
+                            fill: $green;
+                        }
+                    }
+                }
+
+                &.active .select_profile {
+
+                    path,
+                    circle {
+                        fill: $green;
+                    }
+                }
+
+                .select_profile {
+                    max-width: 18px;
+                    max-height: 18px;
+                    margin-left: auto;
+
+                    circle {
+                        fill: transparent;
+                    }
                 }
             }
         }
