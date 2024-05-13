@@ -1,0 +1,17 @@
+@import "styles/common_styles/index";
+
+header {
+    margin-bottom: 16px;
+    height: 90px;
+    border-bottom: 1px solid #212328;
+    display: flex;
+    align-items: center;
+
+    .breadcrumb {
+        .current {
+            font-size: 26px;
+            font-weight: 500;
+            letter-spacing: 2px;
+        }
+    }
+}
