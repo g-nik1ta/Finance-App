@@ -1,0 +1,291 @@
+@import "styles/common_styles/index";
+
+.form_content {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .auth_wrapper {
+        width: clamp(250px, 500px, 70%);
+        display: flex;
+        flex-direction: column;
+
+        .title {
+            font-size: 32px;
+            margin-bottom: 4px;
+            letter-spacing: 2px;
+        }
+
+        .subtitle {
+            font-weight: 600;
+            font-size: 17px;
+            opacity: .6;
+        }
+
+        form {
+            margin: 24px 0;
+
+            .input_wrapper {
+                display: flex;
+                flex-direction: column;
+                gap: 2px;
+                position: relative;
+                border-bottom: 1px solid $grey;
+                overflow: hidden;
+
+                &::before {
+                    content: '';
+                    width: 100%;
+                    position: absolute;
+                    bottom: 0;
+                    left: -100%;
+                    height: 1px;
+                    background-color: $green;
+                    transition: all .4s ease-in-out;
+                }
+
+                @media (hover: hover) {
+                    &:hover {
+                        &::before {
+                            left: 0;
+                        }
+
+                        label {
+                            color: $green;
+                            opacity: 1;
+                        }
+                    }
+                }
+
+                &+.input_wrapper {
+                    margin-top: 24px;
+                }
+
+                &.password input {
+                    padding: 4px 32px 4px 0;
+                }
+
+                label {
+                    font-size: 16px;
+                    opacity: .8;
+                    user-select: none;
+                    transition: all .4s ease-in-out;
+                }
+
+                input {
+                    outline: none;
+                    border: none;
+                    padding: 4px 1px;
+                    border-radius: 4px;
+                    background-color: transparent;
+                }
+
+                .view_password {
+                    right: 4px;
+                    bottom: 4px;
+                    position: absolute;
+                    max-width: 22px;
+                    max-height: 22px;
+                    opacity: .5;
+                    cursor: pointer;
+
+                    @media (hover: hover) {
+                        &:hover {
+                            opacity: 1;
+                        }
+                    }
+
+                    svg {
+                        width: 100%;
+                        height: 100%;
+                    }
+                }
+            }
+
+            .remember-forgot {
+                margin: 24px 0;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+
+                .checkbox_wrapper {
+                    cursor: pointer;
+                    user-select: none;
+
+                    @media (hover: hover) {
+                        &:hover {
+                            .input_title {
+                                color: $green;
+                            }
+
+                            input::after {
+                                border-color: $green;
+                            }
+
+                        }
+                    }
+
+                    input {
+                        background: transparent;
+                        border: 0;
+                        display: inline;
+                        float: left;
+                        margin-left: 0;
+                        margin-right: 20px;
+                        width: 0;
+                        z-index: 1;
+                        height: 20px;
+
+                        &:checked::after {
+                            transition: 0;
+                            background: linear-gradient(267deg, rgba(114, 242, 255, 0.00) -35%, $light_grey 110%), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='9' viewBox='0 0 12 9' fill='none'%3E%3Cpath d='M0.914062 3.83276L4.50067 7.42012L10.5516 1.36914' stroke='white' stroke-linecap='round'/%3E%3C/svg%3E");
+                            background-position: 50%;
+                            background-repeat: no-repeat;
+                            border: none;
+                        }
+
+                        &::after {
+                            transition: border-color .1s;
+                            cursor: pointer;
+                            border: 1px solid $light_grey;
+                            background-color: $grey;
+                            content: "";
+                            display: block;
+                            height: 100%;
+                            width: 20px;
+                            border-radius: 4px;
+                            box-sizing: border-box;
+                        }
+                    }
+
+                    .input_title {
+                        transition: all .1s;
+                        letter-spacing: 1px;
+                        margin-left: 8px;
+                        font-size: 12px;
+                        font-weight: 200;
+                    }
+                }
+
+                .forgot {
+                    color: $green;
+                    font-size: 15px;
+                    opacity: .8;
+                    font-weight: 600;
+                    letter-spacing: 1px;
+
+                    @media (hover: hover) {
+                        &:hover {
+                            cursor: pointer;
+                            opacity: 1;
+                        }
+                    }
+                }
+            }
+
+            .error_wrapper ul {
+                display: flex;
+                flex-direction: column;
+                gap: 2px;
+                margin-bottom: 6px;
+
+                li {
+                    font-size: 14px;
+                    color: rgb(178, 0, 0);
+                    font-weight: 500;
+                }
+            }
+
+            .submit_form {
+                width: 100%;
+                outline: none;
+                border: 0;
+                background-color: $grey;
+                border-radius: 5px;
+                padding: 14px;
+                color: $green;
+                opacity: 1;
+                font-weight: 600;
+                letter-spacing: 1px;
+                cursor: pointer;
+                font-size: 16px;
+                transition: all .15s ease-in-out;
+
+                @media (hover: hover) {
+                    &:hover {
+                        color: $grey;
+                        background-color: $green;
+                    }
+                }
+            }
+        }
+
+        .socials_login {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            span {
+                font-weight: 200;
+                font-size: 14px;
+                opacity: .6;
+            }
+
+            .item {
+                background-color: #181818;
+                border: 1px solid $grey;
+                border-radius: 4px;
+                width: 38px;
+                height: 34px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                cursor: pointer;
+                transition: all .15s ease-in-out;
+
+                @media (hover: hover) {
+                    &:hover {
+                        background-color: $light_grey;
+
+                        svg path {
+                            fill: #FFF;
+                        }
+                    }
+                }
+
+                svg {
+                    width: 50%;
+                    height: 50%;
+
+                    path {
+                        transition: all .15s ease-in-out;
+                    }
+                }
+            }
+        }
+
+        .register {
+            margin-top: 24px;
+            font-weight: 400;
+            font-size: 14px;
+            opacity: .8;
+            letter-spacing: 1px;
+
+            span {
+                font-weight: 800;
+                color: $green;
+                opacity: inherit;
+                transition: all .15s ease-in-out;
+
+                @media (hover: hover) {
+                    &:hover {
+                        cursor: pointer;
+                        opacity: 1;
+                        color: #47f6a1;
+                    }
+                }
+            }
+        }
+    }
+}
