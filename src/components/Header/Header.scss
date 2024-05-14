@@ -1,17 +1,48 @@
 @import "styles/common_styles/index";
 
 header {
-    margin-bottom: 16px;
     height: 90px;
-    border-bottom: 1px solid #212328;
+    border-bottom: 1px solid $grey;
     display: flex;
     align-items: center;
+    justify-content: space-between;
 
     .breadcrumb {
         .current {
             font-size: 26px;
             font-weight: 500;
             letter-spacing: 2px;
+        }
+    }
+
+    .dashboard_tab {
+        margin-left: 12px;
+        display: flex;
+
+        .item {
+            padding: 8px 20px;
+            border-radius: 4px;
+            color: #fff;
+            font-size: 18px;
+            font-weight: 500;
+            transition: all .3s;
+
+            @media (hover: hover) {
+                &:hover {
+                    cursor: pointer;
+                    color: $green;
+                }
+            }
+
+            &.active {
+                cursor: pointer;
+                background-color: #fff;
+                color: $grey;
+            }
+
+            &+.item {
+                border-left: 2px solid $grey;
+            }
         }
     }
 }

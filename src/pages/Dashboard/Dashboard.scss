@@ -1,0 +1,164 @@
+@import "styles/common_styles/index";
+
+.dashboard {
+    margin-top: 20px;
+
+    .categories {
+        display: flex;
+        gap: 8px;
+
+        .item {
+            padding: 4px 16px;
+            border-radius: 20px;
+            border: 2px solid $light_grey;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all .1s;
+
+            @media (hover: hover) {
+                &:hover {
+                    border-color: $green;
+                    background-color: $green;
+                    color: black;
+                }
+            }
+        }
+    }
+
+    .cash_cards {
+        width: 100%;
+        margin-top: 48px;
+        display: flex;
+        gap: 16px;
+
+        .card {
+            background: linear-gradient(20deg, rgba(18, 191, 107, 0.45) 0%, rgba(18, 191, 107, 0.1) 30%, rgba(0, 0, 0, 0) 100%);
+            width: clamp(140px, 25%, 340px);
+            display: flex;
+            flex-direction: column;
+            border: 2px solid $green;
+            border-bottom-width: 6px;
+            border-radius: 12px;
+            padding: 24px 36px;
+            gap: 2px;
+            transition: all .13s;
+
+            @media (hover: hover) {
+                &:hover {
+                    cursor: pointer;
+                    box-shadow: 0px 0px 30px 10px rgba(18, 191, 107, 0.2);
+
+                    .title {
+                        color: rgba(98, 102, 109, 1);
+                    }
+                }
+            }
+
+            .title {
+                transition: all .13s;
+                font-size: 20px;
+                color: rgba(98, 102, 109, 0.7);
+                font-weight: 500;
+                text-wrap: nowrap;
+            }
+
+            .value {
+                letter-spacing: 1px;
+                font-size: 22px;
+                color: $green;
+                font-weight: 600;
+                text-wrap: nowrap;
+            }
+        }
+    }
+
+    .history {
+        margin-top: 40px;
+
+        .head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 1px solid $grey;
+
+            .title {
+                display: inline-flex;
+                align-items: center;
+                gap: 12px;
+                border-right: 1px solid $grey;
+                padding-right: 20px;
+
+                svg {
+                    max-width: 46px;
+                    max-height: 46px;
+                }
+
+                span {
+                    color: #FFF;
+                    font-size: 26px;
+                }
+            }
+
+            .total {
+                font-size: 18px;
+                letter-spacing: 2px;
+            }
+        }
+
+        .table {
+            width: 100%;
+
+            .item {
+                width: 100%;
+                text-align: left;
+            }
+
+            .title {
+                min-width: 25%;
+                text-align: left;
+            }
+
+            .wallet_value {
+                text-align: right;
+                width: 75%;
+            }
+
+            .table_head {
+                padding: 24px 0;
+                width: 100%;
+                display: flex;
+                align-items: center;
+
+                .item {
+                    color: rgba(98, 102, 109, 0.8);
+                    text-transform: uppercase;
+                    letter-spacing: 2px;
+                    font-size: 14px;
+                    font-weight: 700;
+                    text-wrap: nowrap;
+                }
+            }
+
+            .table_body {
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+                gap: 8px;
+
+                .row {
+                    width: 100%;
+                    display: flex;
+                    align-items: center;
+
+                    .item {
+                        color: #fff;
+                        letter-spacing: 1px;
+                        font-size: 15px;
+                        font-weight: 600;
+                    }
+                }
+            }
+        }
+    }
+}

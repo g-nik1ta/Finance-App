@@ -1,12 +1,14 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
 import Profile from "pages/Profile/Profile";
-import Dashbord from "pages/Dashbord/Dashbord";
+import Dashboard from "pages/Dashboard/Dashboard";
 import Settings from "pages/Settings/Settings";
+import DashboardCategories from "pages/DashboardCategories/DashboardCategories";
 
 export const routes = [
-    {path: '*', element: <Navigate to="/profile" />, exact: false, name: 'redirect'},
-    {path: '/profile', element: <Profile/>, exact: false, name: 'profile'},
-    {path: '/dashbord', element: <Dashbord/>, exact: false, name: 'dashbord'},
-    {path: '/settings', element: <Settings/>, exact: false, name: 'settings'},
+    { path: '*', element: <Navigate to="/profile" />, exact: false, name: 'redirect' },
+    { path: '/profile', element: <Profile />, exact: false, name: 'profile' },
+    { path: '/dashboard', element: <Dashboard />, exact: true, name: 'dashboard' },
+    { path: '/dashboard/categories', element: <DashboardCategories />, exact: true, name: 'dashboard-categories' },
+    { path: '/settings', element: <Settings />, exact: false, name: 'settings' },
 ]

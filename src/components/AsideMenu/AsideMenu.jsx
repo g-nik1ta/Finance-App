@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './AsideMenu.scss';
 import { Link, useLocation } from 'react-router-dom';
-import Dashbord from 'svg/Dashbord';
+import Dashboard from 'svg/Dashboard';
 import Profile from 'svg/Profile';
 import Settings from 'svg/Settings';
 import { getRoute } from 'utils/routes';
@@ -56,9 +56,9 @@ const AsideMenu = () => {
                     <Profile />
                     <span>Profile</span>
                 </Link>
-                <Link to={getRoute('dashbord')} className={'nav_item' + (getRoute('dashbord') === location.pathname ? ' active' : "")}>
-                    <Dashbord />
-                    <span>Dashbord</span>
+                <Link to={getRoute('dashboard')} className={'nav_item' + (getRoute('dashboard') === location.pathname ? ' active' : "")}>
+                    <Dashboard />
+                    <span>Dashboard</span>
                 </Link>
                 <Link to={getRoute('settings')} className={'nav_item' + (getRoute('settings') === location.pathname ? ' active' : "")}>
                     <Settings />

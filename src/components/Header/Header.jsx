@@ -1,11 +1,12 @@
 import React from 'react';
 import './Header.scss';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { getRoute } from 'utils/routes';
 
 const Header = () => {
     const breadcrumb = useSelector(state => state.PageReducer.breadcrumb);
+    const location = useLocation();
 
     return (
         <header>
@@ -32,8 +33,18 @@ const Header = () => {
                             </Link>
                     )
                 }
-                {/* <span className='current'>Dashboard</span> */}
             </div>
+            {
+                getRoute('dashboard') === '/' + location.pathname.split('/')[1] &&
+                <div className="dashboard_tab">
+                    <Link to={getRoute('dashboard')} className={"item" + (getRoute('dashboard') === location.pathname ? ' active' : "")}>
+                        History
+                    </Link>
+                    <Link to={getRoute('dashboard-categories')} className={"item" + (getRoute('dashboard-categories') === location.pathname ? ' active' : "")}>
+                        Categories
+                    </Link>
+                </div>
+            }
         </header>
     )
 }
