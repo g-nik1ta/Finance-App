@@ -1,7 +1,8 @@
-import { routes } from "route";
+import { routes, publicRoutes } from "route";
 
 export function getRoute(name, param = []) {
-    const route = routes.find(route => route.name === name);
+    const allRoutes = [...routes, ...publicRoutes]
+    const route = allRoutes.find(route => route.name === name);
     let path = route?.path;
     let newPath = path;
     if (route?.path) {

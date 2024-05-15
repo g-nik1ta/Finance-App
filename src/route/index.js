@@ -4,6 +4,8 @@ import Profile from "pages/Profile/Profile";
 import Dashboard from "pages/Dashboard/Dashboard";
 import Settings from "pages/Settings/Settings";
 import DashboardCategories from "pages/DashboardCategories/DashboardCategories";
+import Authorization from "pages/Authorization/Authorization";
+import Login from "pages/Login/Login";
 
 export const routes = [
     { path: '*', element: <Navigate to="/profile" />, exact: false, name: 'redirect' },
@@ -11,4 +13,11 @@ export const routes = [
     { path: '/dashboard', element: <Dashboard />, exact: true, name: 'dashboard' },
     { path: '/dashboard/categories', element: <DashboardCategories />, exact: true, name: 'dashboard-categories' },
     { path: '/settings', element: <Settings />, exact: false, name: 'settings' },
+    { path: '/authorization', element: <Authorization />, exact: false, name: 'authorization' },
+]
+
+export const publicRoutes = [
+    { path: '*', element: <Navigate to="/authorization" />, exact: false, name: 'redirect' },
+    { path: '/authorization', element: <Authorization />, exact: false, name: 'authorization' },
+    { path: '/login', element: <Login />, exact: false, name: 'login' },
 ]

@@ -4,9 +4,79 @@ import ViewPasswordOff from 'svg/ViewPasswordOff';
 import ViewPasswordOn from 'svg/ViewPasswordOn';
 import Google from 'svg/Google';
 import Facebook from 'svg/Facebook';
+import { FacebookAuthProvider, getAuth, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
+import { app } from 'firebase.js';
+import { setUserAction } from 'store/ProfileReducer';
+import { useDispatch } from 'react-redux';
+import { fetchErrorCode } from 'utils/signInErrors';
+import { useFetching } from 'hooks/useFetching';
+import { Link } from 'react-router-dom';
+import { getRoute } from 'utils/routes';
 
 const Authorization = () => {
+    const dispatch = useDispatch();
+    const auth = getAuth(app);
+    const [errors, setErrors] = useState([]);
+
+    const googleLoginUser = async () => {
+        const provider = new GoogleAuthProvider();
+        try {
+            const response = await signInWithPopup(auth, provider);
+            dispatch(setUserAction(response.user))
+        } catch (error) {
+            setErrors(['Something went wrong, try again later...'])
+        }
+    }
+    const facebookLoginUser = async () => {
+        const provider = new FacebookAuthProvider();
+        try {
+            const response = await signInWithPopup(auth, provider);
+            console.log(response);
+            dispatch(setUserAction(response.user))
+        } catch (error) {
+            console.log(error);
+            setErrors(['Something went wrong, try again later...'])
+        }
+    }
+
+    const [fetchLogin, isLoginLoading, loginError] = useFetching(async (values) => {
+        const { email, password, remember, name } = values;
+
+        await createUserWithEmailAndPassword(auth, email, password)
+            .then(async (userCredential) => {
+                const user = userCredential.user;
+                const { uid, email } = user;
+                if (remember) {
+                    const idToken = await user.getIdToken();
+                    localStorage.setItem('financeAppUserToken', idToken);
+                }
+
+                console.log({
+                    uid, email, remember, name
+                });
+
+                setValues({
+                    name: '',
+                    email: '',
+                    password: '',
+                    password_confirmation: '',
+                    remember: false,
+                })
+                setViewPassword({
+                    password: false,
+                    password_confirmation: false,
+                })
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                setErrors([fetchErrorCode(errorCode)]);
+                console.log(errorMessage);
+            })
+    });
+
     const [values, setValues] = useState({
+        name: '',
         email: '',
         password: '',
         password_confirmation: '',
@@ -32,8 +102,6 @@ const Authorization = () => {
         })
     }
 
-    const [errors, setErrors] = useState([]);
-
     const submitHandler = (e) => {
         e.preventDefault();
         const arr = [];
@@ -45,17 +113,8 @@ const Authorization = () => {
         }
         setErrors(arr);
         if (arr.length) return
-        console.log('values: ', values);
-        setValues({
-            email: '',
-            password: '',
-            password_confirmation: '',
-            remember: false,
-        })
-        setViewPassword({
-            password: false,
-            password_confirmation: false,
-        })
+
+        fetchLogin(values);
     }
 
     return (
@@ -66,6 +125,17 @@ const Authorization = () => {
                 </h1>
                 <p className="subtitle">Create your account</p>
                 <form onSubmit={submitHandler}>
+                    <div className="input_wrapper">
+                        <label htmlFor="email">Name</label>
+                        <input
+                            type="text"
+                            required
+                            id="name"
+                            placeholder='Bill'
+                            value={values.name}
+                            onChange={changeValues}
+                        />
+                    </div>
                     <div className="input_wrapper">
                         <label htmlFor="email">E-mail</label>
                         <input
@@ -142,9 +212,8 @@ const Authorization = () => {
                                 onChange={changeValues}
                                 checked={values.remember}
                             />
-                            <span className='input_title'>Remember for 30 days</span>
+                            <span className='input_title'>Remember me</span>
                         </label>
-                        <span className='forgot'> Forgot password </span>
                     </div>
                     {
                         !!errors.length &&
@@ -162,14 +231,14 @@ const Authorization = () => {
                 </form>
                 <div className="socials_login">
                     <span>Sign Up with</span>
-                    <div className="item">
+                    <div className="item" onClick={googleLoginUser}>
                         <Google />
                     </div>
-                    <div className="item">
+                    <div className="item" onClick={facebookLoginUser}>
                         <Facebook />
                     </div>
                 </div>
-                <span className='register'> Don't have an account? <span>Sign Up</span> </span>
+                <span className='register'> Already have an account? <Link to={getRoute('login')} className='sign-up'>Login</Link> </span>
             </div>
         </main>
     )
