@@ -13,7 +13,6 @@ export const routes = [
     { path: '/dashboard', element: <Dashboard />, exact: true, name: 'dashboard' },
     { path: '/dashboard/categories', element: <DashboardCategories />, exact: true, name: 'dashboard-categories' },
     { path: '/settings', element: <Settings />, exact: false, name: 'settings' },
-    { path: '/authorization', element: <Authorization />, exact: false, name: 'authorization' },
 ]
 
 export const publicRoutes = [

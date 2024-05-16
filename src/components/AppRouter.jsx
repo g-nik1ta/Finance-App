@@ -8,6 +8,7 @@ const AppRouter = ({ auth = false }) => {
         window.scrollTo({ top: 0 });
     }, [location])
 
+
     return (
         <Routes>
             {

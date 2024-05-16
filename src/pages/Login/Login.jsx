@@ -50,6 +50,8 @@ const Login = () => {
                     localStorage.setItem('financeAppUserToken', idToken);
                 }
 
+                dispatch(setUserAction(user))
+
                 console.log({
                     uid, email, remember
                 });
