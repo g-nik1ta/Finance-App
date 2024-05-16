@@ -1,45 +1,51 @@
 import AppRouter from 'components/AppRouter';
 import AsideMenu from 'components/AsideMenu/AsideMenu';
 import Header from 'components/Header/Header';
-import Authorization from 'pages/Authorization/Authorization';
 import { useDispatch, useSelector } from 'react-redux';
 import 'styles/App.scss';
-import { getAuth, onAuthStateChanged, signInWithCustomToken } from 'firebase/auth';
 import { useEffect } from 'react';
 import { setUserAction } from 'store/ProfileReducer';
-import { app } from 'firebase.js';
+import PostService from 'API/PostService';
+import { useFetching } from 'hooks/useFetching';
 
 function App() {
-    const dispatch = useDispatch();
-    const auth = getAuth(app);
+	const dispatch = useDispatch();
 	const user = useSelector(state => state.ProfileReducer.user);
 
-	// useEffect(() => {
-	// 	// Проверка при монтировании компонента
-	// 	const savedToken = localStorage.getItem('financeAppUserToken');
+	const [fetchUser, isUserLoading, userError] = useFetching(async (token) => {
+		const response = await PostService.getUserToken(token);
+		console.log(response);
+		if (response) {
+			dispatch(setUserAction(response)) //  Your logic to handle the response
+		} else {
+			console.log("Ошибка получения пользователя по токену");
+			localStorage.removeItem('financeAppRefreshToken');
+		}
+	});
 
-	// 	if (savedToken) {
-	// 		signInWithCustomToken(auth, savedToken)
-	// 			.then((userCredential) => {
-	// 				console.log(userCredential.user);
-	// 				dispatch(setUserAction(userCredential.user))
-	// 			})
-	// 			.catch(error => {
-	// 				console.error("Ошибка автоматической авторизации:", error);
-	// 				// Если токен недействителен, очистите localStorage
-	// 				// localStorage.removeItem('financeAppUserToken');
-	// 			});
-	// 	}
+	useEffect(() => {
+		if (!userError) return
+		console.log("Автоматическая авторизация не удалась");
+	}, [userError])
 
-	// 	// Наблюдение за изменениями авторизации
-	// 	const unsubscribe = onAuthStateChanged(auth, (user) => {
-	// 		console.log('unmout:', user);
-	// 		dispatch(setUserAction(user))
-	// 	});
+	useEffect(() => {
+		const refreshTokenData = JSON.parse(localStorage.getItem('financeAppRefreshToken'));
 
-	// 	// Очистка при демонтировании компонента
-	// 	return () => unsubscribe();
-	// }, []);
+		if (refreshTokenData && refreshTokenData.expiresAt > Date.now()) {
+			fetchUser(refreshTokenData.token);
+		} else {
+			console.log("Автоматическая авторизация не удалась");
+			localStorage.removeItem('financeAppRefreshToken');
+		}
+	}, []);
+
+	if (isUserLoading) {
+		return (
+			<div id="app">
+				Loading...
+			</div>
+		)
+	}
 
 	if (!user) {
 		return (

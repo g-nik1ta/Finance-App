@@ -12,6 +12,7 @@ import { fetchErrorCode } from 'utils/signInErrors';
 import { useFetching } from 'hooks/useFetching';
 import { Link } from 'react-router-dom';
 import { getRoute } from 'utils/routes';
+import PostService from 'API/PostService';
 
 const Authorization = () => {
     const dispatch = useDispatch();
@@ -22,6 +23,10 @@ const Authorization = () => {
         const provider = new GoogleAuthProvider();
         try {
             const response = await signInWithPopup(auth, provider);
+            const { uid, email, displayName: name } = response.user;
+            await PostService.sendRegisterForm({
+                uid, email, name
+            });
             dispatch(setUserAction(response.user))
         } catch (error) {
             setErrors(['Something went wrong, try again later...'])
@@ -31,7 +36,10 @@ const Authorization = () => {
         const provider = new FacebookAuthProvider();
         try {
             const response = await signInWithPopup(auth, provider);
-            console.log(response);
+            const { uid, email, displayName: name } = response.user;
+            await PostService.sendRegisterForm({
+                uid, email, name
+            });
             dispatch(setUserAction(response.user))
         } catch (error) {
             console.log(error);
@@ -46,14 +54,19 @@ const Authorization = () => {
             .then(async (userCredential) => {
                 const user = userCredential.user;
                 const { uid, email } = user;
+
                 if (remember) {
-                    const idToken = await user.getIdToken();
-                    localStorage.setItem('financeAppUserToken', idToken);
+                    const refreshToken = userCredential.user.uid;
+                    const expiresAt = Date.now() + 30 * 24 * 60 * 60 * 1000;
+
+                    localStorage.setItem('financeAppRefreshToken', JSON.stringify({
+                        token: refreshToken,
+                        expiresAt: expiresAt
+                    }));
                 }
 
                 dispatch(setUserAction(user))
-
-                console.log({
+                await PostService.sendRegisterForm({
                     uid, email, remember, name
                 });
 

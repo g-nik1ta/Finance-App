@@ -16,7 +16,7 @@ export const routes = [
 ]
 
 export const publicRoutes = [
-    { path: '*', element: <Navigate to="/authorization" />, exact: false, name: 'redirect' },
+    { path: '*', element: <Navigate to="/login" />, exact: false, name: 'redirect' },
     { path: '/authorization', element: <Authorization />, exact: false, name: 'authorization' },
     { path: '/login', element: <Login />, exact: false, name: 'login' },
 ]

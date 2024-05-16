@@ -44,17 +44,18 @@ const Login = () => {
         await signInWithEmailAndPassword(auth, email, password)
             .then(async (userCredential) => {
                 const user = userCredential.user;
-                const { uid, email } = user;
+
                 if (remember) {
-                    const idToken = await user.getIdToken();
-                    localStorage.setItem('financeAppUserToken', idToken);
+                    const refreshToken = userCredential.user.uid;
+                    const expiresAt = Date.now() + 30 * 24 * 60 * 60 * 1000;
+
+                    localStorage.setItem('financeAppRefreshToken', JSON.stringify({
+                        token: refreshToken,
+                        expiresAt: expiresAt
+                    }));
                 }
 
                 dispatch(setUserAction(user))
-
-                console.log({
-                    uid, email, remember
-                });
 
                 setValues({
                     email: '',
