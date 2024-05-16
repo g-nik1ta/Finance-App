@@ -12,6 +12,7 @@ import { fetchErrorCode } from 'utils/signInErrors';
 import { useFetching } from 'hooks/useFetching';
 import { getRoute } from 'utils/routes';
 import { Link } from 'react-router-dom';
+import Loader from 'components/UI/Loader/Loader';
 
 const Login = () => {
     const dispatch = useDispatch();
@@ -70,7 +71,7 @@ const Login = () => {
                 const errorCode = error.code;
                 const errorMessage = error.message;
                 setErrors([fetchErrorCode(errorCode)]);
-                console.log(errorMessage);
+                // console.log(errorMessage);
             })
     });
 
@@ -108,6 +109,14 @@ const Login = () => {
         if (arr.length) return
 
         fetchLogin(values);
+    }
+
+    if (isLoginLoading) {
+        return (
+            <div className='full_width full_heigth flex align_center justify_center'>
+                <Loader />
+            </div>
+        )
     }
 
     return (

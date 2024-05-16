@@ -7,15 +7,20 @@ import { useEffect } from 'react';
 import { setUserAction } from 'store/ProfileReducer';
 import PostService from 'API/PostService';
 import { useFetching } from 'hooks/useFetching';
+import Loader from 'components/UI/Loader/Loader';
+import { useNavigate } from 'react-router-dom';
+import { getRoute } from 'utils/routes';
 
 function App() {
+    const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const user = useSelector(state => state.ProfileReducer.user);
 
 	const [fetchUser, isUserLoading, userError] = useFetching(async (token) => {
 		const response = await PostService.getUserToken(token);
-		console.log(response);
 		if (response) {
+			// console.log(response);
+			console.log("Автоматическая авторизация прошла успешно");
 			dispatch(setUserAction(response)) //  Your logic to handle the response
 		} else {
 			console.log("Ошибка получения пользователя по токену");
@@ -42,7 +47,9 @@ function App() {
 	if (isUserLoading) {
 		return (
 			<div id="app">
-				Loading...
+				<div className='full_width full_heigth flex align_center justify_center'>
+					<Loader />
+				</div>
 			</div>
 		)
 	}
