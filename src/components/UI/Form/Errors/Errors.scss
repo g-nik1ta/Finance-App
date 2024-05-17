@@ -1,0 +1,13 @@
+
+.error_wrapper ul {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-bottom: 6px;
+
+    li {
+        font-size: 14px;
+        color: rgb(178, 0, 0);
+        font-weight: 500;
+    }
+}

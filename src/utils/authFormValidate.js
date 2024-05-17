@@ -16,6 +16,6 @@ export const fetchErrorCode = (errorCode) => {
         case 'RESET_PASSWORD_auth/invalid-email':
             return 'Пожалуйста, укажите корректный адрес';
         default:
-            return 'Не удалось войти в систему. Обратитесь в тех-поддержку';
+            return 'Something went wrong. Contact technical support...';
     }
 }

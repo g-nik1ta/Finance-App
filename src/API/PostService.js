@@ -1,14 +1,10 @@
 import { addDoc, collection, doc, getDocs, getFirestore, query, setDoc, updateDoc, where } from 'firebase/firestore';
 import { app } from 'firebase.js';
+import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 
 const db = getFirestore(app);
-// const catalogRef = collection(db, "catalog");
-// const feedbackRef = collection(db, "feedback");
+const auth = getAuth(app);
 const usersTable = collection(db, "users");
-// const userRef = collection(db, "authUsers");
-// const categoryRef = collection(db, "category");
-// const ordersRef = collection(db, "orders");
-// const promoCodesRef = collection(db, "promoCodes");
 
 function wait() {
     return new Promise(resolve => {
@@ -21,27 +17,71 @@ export default class PostService {
         await wait();
     }
 
-    // static async getAllProducts() {
-    //     let arr = [];
-    //     const querySnapshot = await getDocs(catalogRef);
-    //     querySnapshot.forEach((doc) => {
-    //         arr.push(doc.data().product)
-    //     });
-    //     return arr;
-    // }
+    static setUserRefreshToken(refreshToken) {
+        const expiresAt = Date.now() + 30 * 24 * 60 * 60 * 1000;
 
-    // static async sendFeedbackForm(formValues) {
-    //     await setDoc(doc(feedbackRef, String(formValues.id)), {
-    //         id: formValues.id,
-    //         name: formValues.name,
-    //         telephone: formValues.telephone,
-    //         email: formValues.email,
-    //         message: formValues.message,
-    //         isRead: false
-    //     })
-    // }
+        localStorage.setItem('financeAppRefreshToken', JSON.stringify({
+            token: refreshToken,
+            expiresAt: expiresAt
+        }));
+    }
 
-    static async sendRegisterForm(formValues) {
+    static async signIn(values) {
+        const { email, password, remember } = values;
+
+        let status = 'error';
+        const response = await signInWithEmailAndPassword(auth, email, password)
+            .then(async (userCredential) => {
+                const token = userCredential.user.reloadUserInfo.localId;
+                const { status: status_user, data: data_user } = await PostService.getUserData(token);
+
+                if (status_user === 'error') return
+                if (remember) PostService.setUserRefreshToken(userCredential.user.uid)
+
+                status = 'success';
+                return data_user
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                return errorCode;
+            });
+
+        return { status, data: response };
+    }
+
+
+
+    static async registerUser(values) {
+        const { email, password, remember, name } = values;
+
+        let status = 'error';
+        const response = await createUserWithEmailAndPassword(auth, email, password)
+            .then(async (userCredential) => {
+                const user = userCredential.user;
+                const { uid, email } = user;
+
+                if (remember) {
+                    PostService.setUserRefreshToken(userCredential.user.uid)
+                }
+
+                await PostService.updateUserTable({
+                    uid, email, remember, name
+                });
+
+                status = 'success';
+                return user
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                return errorCode;
+            })
+
+        return { status, data: response };
+    }
+
+    static async updateUserTable(formValues) {
         const arr = []
         const querySnapshot = await getDocs(usersTable);
         querySnapshot.forEach((doc) => {
@@ -56,67 +96,19 @@ export default class PostService {
         })
     }
 
-    static async getUserToken(refreshTokenData) {
+    static async getUserData(refreshTokenData) {
         let arr = [];
         const q = query(usersTable, where("id", "==", refreshTokenData.trim()));
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
             arr.push(doc.data())
         });
-        return arr[0];
+
+        if (!!arr[0]) return {
+            status: 'success', data: arr[0]
+        }
+        return {
+            status: 'error', data: null
+        }
     }
-
-    // static async getCategory() {
-    //     let arr = [];
-    //     const querySnapshot = await getDocs(categoryRef);
-    //     querySnapshot.forEach((doc) => {
-    //         arr.push(doc.data())
-    //     });
-    //     return arr;
-    // }
-
-    // static async sendOrderForm(formValues) {
-    //     const { id, nameSurname, city, telephone, email, wishes, payment, adress, date, status, sum, products } = formValues;
-    //     await setDoc(doc(ordersRef, String(formValues.id)), {
-    //         id,
-    //         nameSurname,
-    //         city,
-    //         telephone,
-    //         email,
-    //         wishes,
-    //         payment,
-    //         adress,
-    //         date,
-    //         status,
-    //         sum,
-    //         products
-    //     })
-    // }
-
-    // static async getPromocode(promocode) {
-    //     let arr = [];
-    //     const q = query(promoCodesRef, where("promocode", "==", promocode.trim()));
-    //     const qIsUsed = query(promoCodesRef, where("promocode", "==", promocode.trim()), where("isUsed", "==", false));
-    //     const querySnapshot = await getDocs(q);
-    //     const querySnapshotIsUsed = await getDocs(qIsUsed);
-
-    //     if (querySnapshotIsUsed.docs[0]) {
-    //         querySnapshotIsUsed.forEach((doc) => {
-    //             arr.push(doc.data())
-    //         });
-    //         return arr[0];
-    //     } else if (querySnapshot.docs[0]) {
-    //         return 'already-used'
-    //     } else return 'not-found'
-    // }
-
-    // static async updatePromocode(promocode) {
-    //     const q = query(promoCodesRef, where("promocode", "==", promocode.trim()));
-    //     const querySnapshot = await getDocs(q);
-    //     const promoCodeRef = doc(db, "promoCodes", querySnapshot.docs[0].ref.id);
-    //     await updateDoc(promoCodeRef, {
-    //         isUsed: true
-    //     });
-
-    // }
 }

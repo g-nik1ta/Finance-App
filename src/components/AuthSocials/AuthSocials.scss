@@ -1,0 +1,45 @@
+@import "styles/common_styles/index";
+
+.socials_login {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    span {
+        font-weight: 200;
+        font-size: 14px;
+        opacity: .6;
+    }
+
+    .item {
+        background-color: #181818;
+        border: 1px solid $grey;
+        border-radius: 4px;
+        width: 38px;
+        height: 34px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        transition: all .15s ease-in-out;
+
+        @media (hover: hover) {
+            &:hover {
+                background-color: $light_grey;
+
+                svg path {
+                    fill: #FFF;
+                }
+            }
+        }
+
+        svg {
+            width: 50%;
+            height: 50%;
+
+            path {
+                transition: all .15s ease-in-out;
+            }
+        }
+    }
+}

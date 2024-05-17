@@ -8,29 +8,26 @@ import { setUserAction } from 'store/ProfileReducer';
 import PostService from 'API/PostService';
 import { useFetching } from 'hooks/useFetching';
 import Loader from 'components/UI/Loader/Loader';
-import { useNavigate } from 'react-router-dom';
-import { getRoute } from 'utils/routes';
 
 function App() {
-    const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const user = useSelector(state => state.ProfileReducer.user);
 
 	const [fetchUser, isUserLoading, userError] = useFetching(async (token) => {
-		const response = await PostService.getUserToken(token);
-		if (response) {
-			// console.log(response);
-			console.log("Автоматическая авторизация прошла успешно");
-			dispatch(setUserAction(response)) //  Your logic to handle the response
-		} else {
-			console.log("Ошибка получения пользователя по токену");
+		const { status, data } = await PostService.getUserData(token);
+		if (status === 'error') {
+			console.log("Error getting user by token");
 			localStorage.removeItem('financeAppRefreshToken');
+			return
 		}
+
+		console.log("Authorization was successful");
+		dispatch(setUserAction(data))
 	});
 
 	useEffect(() => {
 		if (!userError) return
-		console.log("Автоматическая авторизация не удалась");
+		console.log("Something went wrong. Contact technical support...");
 	}, [userError])
 
 	useEffect(() => {
@@ -39,7 +36,7 @@ function App() {
 		if (refreshTokenData && refreshTokenData.expiresAt > Date.now()) {
 			fetchUser(refreshTokenData.token);
 		} else {
-			console.log("Автоматическая авторизация не удалась");
+			console.log("The authorization token is out of date or not found");
 			localStorage.removeItem('financeAppRefreshToken');
 		}
 	}, []);
