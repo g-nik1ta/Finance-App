@@ -112,7 +112,7 @@ const Login = () => {
                     </div>
                     {
                         !!errors.length &&
-                        <Errors erros={errors} />
+                        <Errors errors={errors} />
                     }
                     <button type='submit' className='submit_form'>
                         Login

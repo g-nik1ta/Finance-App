@@ -51,6 +51,38 @@ export default class PostService {
     }
 
 
+    static async updateUser(values) {
+        const { id, name } = values;
+
+        let status = 'error';
+        let data = null;
+        const q = query(usersTable, where("id", "==", id));
+        const querySnapshot = await getDocs(q);
+
+        if (!querySnapshot.empty) {
+            querySnapshot.forEach(async (doc) => {
+                await updateDoc(doc.ref, {
+                    name: name
+                });
+            });
+
+
+            let arr = []
+            const q_user = query(usersTable, where("id", "==", id));
+            const querySnapshot_user = await getDocs(q_user);
+            querySnapshot_user.forEach((doc) => {
+                arr.push(doc.data())
+            });
+
+            if (!!arr[0]) {
+                status = 'success';
+                data = arr[0];
+            }
+        }
+
+        return { status, data }
+    }
+
 
     static async registerUser(values) {
         const { email, password, remember, name } = values;
