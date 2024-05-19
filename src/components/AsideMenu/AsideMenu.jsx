@@ -21,10 +21,7 @@ const AsideMenu = () => {
     const clickFuncRef = useRef();
 
     const user = useSelector(state => state.ProfileReducer.user);
-    // console.log(user);
     const auth = getAuth(app);
-    const userState = useAuthState(auth);
-    // console.log(userState);
 
     const openSelectHandler = (e) => {
         const bool = !openSelect;
@@ -83,7 +80,7 @@ const AsideMenu = () => {
                 </Link>
                 <Link to={getRoute('settings')} className={'nav_item' + (getRoute('settings') === location.pathname ? ' active' : "")}>
                     <Settings />
-                    <span>Settings</span>
+                    <span>Settings & Support</span>
                 </Link>
             </nav>
             <div ref={ref} className="select_box">
