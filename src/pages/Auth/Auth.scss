@@ -47,29 +47,6 @@
                     }
                 }
             }
-
-            .submit_form {
-                width: 100%;
-                outline: none;
-                border: 0;
-                background-color: $grey;
-                border-radius: 5px;
-                padding: 14px;
-                color: $green;
-                opacity: 1;
-                font-weight: 600;
-                letter-spacing: 1px;
-                cursor: pointer;
-                font-size: 16px;
-                transition: all .15s ease-in-out;
-
-                @media (hover: hover) {
-                    &:hover {
-                        color: $grey;
-                        background-color: $green;
-                    }
-                }
-            }
         }
 
         .register {

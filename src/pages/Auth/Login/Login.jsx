@@ -7,12 +7,13 @@ import { useFetching } from 'hooks/useFetching';
 import { getRoute } from 'utils/routes';
 import { Link } from 'react-router-dom';
 import Loader from 'components/UI/Loader/Loader';
-import PostService from 'API/PostService';
+import AccountService from 'API/AccountService';
 import Input from 'components/UI/Form/Input/Input';
 import Remember from 'components/UI/Form/Remember/Remember';
 import Errors from 'components/UI/Form/Errors/Errors';
 import AuthSocials from 'components/AuthSocials/AuthSocials';
 import { changeValue } from 'utils/form';
+import MyButton from 'components/UI/MyButton/MyButton';
 
 const Login = () => {
     const dispatch = useDispatch();
@@ -37,7 +38,7 @@ const Login = () => {
     ]
 
     const [fetchLogin, isLoginLoading, loginError] = useFetching(async (values) => {
-        const { status, data } = await PostService.signIn(values);
+        const { status, data } = await AccountService.signIn(values);
 
         if (status === 'error') {
             setErrors([fetchErrorCode(data)]);
@@ -63,7 +64,7 @@ const Login = () => {
         email: '',
         password: '',
         remember: false,
-    }) 
+    })
 
     const submitHandler = (e) => {
         e.preventDefault();
@@ -110,13 +111,8 @@ const Login = () => {
                         />
                         <span className='forgot'> Forgot password </span>
                     </div>
-                    {
-                        !!errors.length &&
-                        <Errors errors={errors} />
-                    }
-                    <button type='submit' className='submit_form'>
-                        Login
-                    </button>
+                    <Errors errors={errors} />
+                    <MyButton>Login</MyButton>
                 </form>
                 <AuthSocials setErrors={setErrors} login={true} />
                 <span className='register'> Don't have an account? <Link to={getRoute('register')} className="sign-up">Sign Up</Link> </span>

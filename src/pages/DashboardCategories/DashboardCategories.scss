@@ -1,1 +1,83 @@
 @import "styles/common_styles/index";
+
+.dashboard_categories_page {
+    margin-top: 20px;
+
+    .title {
+        font-size: 28px;
+        letter-spacing: 1px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .open-form {
+        display: inline-block;
+        width: 44px;
+        height: 44px;
+        border: 3px solid $green;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: all .3s;
+        cursor: pointer;
+        user-select: none;
+
+        &.open svg {
+            transform: rotate(180deg);
+        }
+
+        @media (hover: hover) {
+            &:hover {
+                background-color: $green;
+
+                svg path {
+                    fill: #FFF;
+                }
+            }
+        }
+
+        svg {
+            max-width: 22px;
+            max-height: 20px;
+            transition: all .3s;
+
+            path {
+                transition: all .3s;
+                fill: $green;
+            }
+        }
+    }
+
+    form {
+        margin-bottom: 8px;
+        margin-top: 0;
+        max-height: 0px;
+        overflow: hidden;
+        transition: all .6s;
+
+        &.openCategory {
+            padding-top: 2px;
+
+            &.open {
+                max-height: 300px;
+            }
+        }
+
+        &.open {
+            margin-top: 20px;
+            max-height: 150px;
+        }
+
+        .my_button {
+            margin-top: 16px;
+            padding: 12px;
+        }
+
+        .error_wrapper ul {
+            margin-top: 6px;
+            margin-bottom: 0;
+        }
+    }
+}

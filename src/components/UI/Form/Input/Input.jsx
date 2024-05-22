@@ -3,7 +3,7 @@ import './Input.scss';
 import ViewPasswordOn from 'svg/ViewPasswordOn';
 import ViewPasswordOff from 'svg/ViewPasswordOff';
 
-const Input = ({ item, value, onChange }) => {
+const Input = ({ item, value, onChange, ...props }) => {
     const { type, required, name, placeholder, label } = item;
 
     const [viewPassword, setViewPassword] = useState(false)
@@ -17,13 +17,14 @@ const Input = ({ item, value, onChange }) => {
                         ?
                         viewPassword ? 'text' : "password"
                         :
-                        'text'
+                        type
                 }
                 required={required}
                 id={name}
                 placeholder={placeholder}
                 value={value}
                 onChange={onChange}
+                {...props}
             />
             {
                 type === 'password' &&

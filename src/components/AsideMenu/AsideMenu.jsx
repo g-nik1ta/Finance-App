@@ -74,7 +74,7 @@ const AsideMenu = () => {
                     <Profile />
                     <span>Profile</span>
                 </Link>
-                <Link to={getRoute('dashboard')} className={'nav_item' + (getRoute('dashboard') === location.pathname ? ' active' : "")}>
+                <Link to={getRoute('dashboard')} className={'nav_item' + (getRoute('dashboard') === location.pathname || getRoute('dashboard-categories') === location.pathname ? ' active' : "")}>
                     <Dashboard />
                     <span>Dashboard</span>
                 </Link>

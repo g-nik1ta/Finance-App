@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import 'styles/App.scss';
 import { useEffect } from 'react';
 import { setUserAction } from 'store/ProfileReducer';
-import PostService from 'API/PostService';
+import AccountService from 'API/AccountService';
 import { useFetching } from 'hooks/useFetching';
 import Loader from 'components/UI/Loader/Loader';
 
@@ -14,7 +14,7 @@ function App() {
 	const user = useSelector(state => state.ProfileReducer.user);
 
 	const [fetchUser, isUserLoading, userError] = useFetching(async (token) => {
-		const { status, data } = await PostService.getUserData(token);
+		const { status, data } = await AccountService.getUserData(token);
 		if (status === 'error') {
 			console.log("Error getting user by token");
 			localStorage.removeItem('financeAppRefreshToken');

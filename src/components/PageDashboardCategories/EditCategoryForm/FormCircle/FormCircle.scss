@@ -1,0 +1,97 @@
+@import "styles/common_styles/index";
+
+.form_circle {
+    max-width: 36px;
+    max-height: 36px;
+    min-height: 36px;
+    min-width: 36px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all .3s;
+    cursor: pointer;
+    user-select: none;
+    margin-bottom: 8px;
+
+    &+.form_circle {
+        margin-left: 8px;
+    }
+
+    @media (hover: hover) {
+        &:hover {
+            &.close_form_wrapper {
+                background-color: $green;
+            }
+
+            &.remove_form_wrapepr,
+            &.check_mark_form_wrapepr {
+                background-color: rgb(178, 0, 0);
+            }
+
+            svg path {
+                fill: #FFF;
+            }
+        }
+    }
+
+    svg {
+        transition: all .3s;
+
+        path {
+            transition: all .3s;
+        }
+    }
+}
+
+.close_form_wrapper {
+    border: 3px solid $green;
+
+    svg {
+        transform: rotate(180deg);
+        max-width: 18px;
+        max-height: 16px;
+    }
+
+    svg path {
+        fill: $green;
+    }
+}
+
+.remove_form_wrapepr.active {
+    background-color: rgb(178, 0, 0);
+
+    svg path {
+        fill: #FFF;
+    }
+}
+
+.remove_form_wrapepr,
+.check_mark_form_wrapepr {
+    border: 3px solid rgb(178, 0, 0);
+
+    svg {
+        max-width: 20px;
+        max-height: 20px;
+
+        path {
+            fill: rgb(178, 0, 0);
+        }
+    }
+}
+
+.check_mark_form_wrapepr {
+    &:not(.active) {
+        min-width: 0;
+        min-height: 0;
+        max-width: 0;
+        max-height: 0;
+        margin-left: 0;
+        border: 3px solid transparent;
+    }
+
+    svg {
+        max-width: 22px;
+        max-height: 24px;
+    }
+}

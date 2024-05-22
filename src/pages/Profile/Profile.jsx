@@ -8,15 +8,18 @@ import { useFetching } from 'hooks/useFetching';
 import { fetchErrorCode } from 'utils/authFormValidate';
 import Loader from 'components/UI/Loader/Loader';
 import { changeValue } from 'utils/form';
-import PostService from 'API/PostService';
+import AccountService from 'API/AccountService';
 import { setUserAction } from 'store/ProfileReducer';
+import MyButton from 'components/UI/MyButton/MyButton';
 
 const Profile = () => {
     const pageProps = usePageProps();
     useEffect(() => {
-        pageProps({breadcrumb: [
-            {id: 1, title: 'Profile', page: 'profile'},
-        ]});
+        pageProps({
+            breadcrumb: [
+                { id: 1, title: 'Profile', page: 'profile' },
+            ]
+        });
     }, [])
 
     const user = useSelector(state => state.ProfileReducer.user);
@@ -35,16 +38,16 @@ const Profile = () => {
 
     const [fetchProfile, isProfileLoading, profileError] = useFetching(async (values) => {
         const id = user.id;
-        const { status, data } = await PostService.updateUser({...values, id});
+        const { status, data } = await AccountService.updateUser({ ...values, id });
 
         if (status === 'error') {
             setErrors([fetchErrorCode(data)]);
             return
         }
         dispatch(setUserAction(data))
-        
+
         setValues({
-            name: '',
+            name: data?.name || '',
         })
     });
 
@@ -56,8 +59,8 @@ const Profile = () => {
 
 
     const [values, setValues] = useState({
-        name: '',
-    }) 
+        name: user?.name || '',
+    })
 
     const submitHandler = (e) => {
         e.preventDefault();
@@ -78,24 +81,19 @@ const Profile = () => {
             <h1 className='title'>Hello, <b>{user.name}</b></h1>
             <h2 className="subtitle">Profile settigs</h2>
             <form onSubmit={submitHandler}>
-                    {
-                        inputs.map(item =>
-                            <Input
-                                key={item.id}
-                                item={item}
-                                value={values[item.name]}
-                                onChange={(e) => changeValue(e, setValues)}
-                            />
-                        )
-                    }
-                    {
-                        !!errors.length &&
-                        <Errors errors={errors} />
-                    }
-                    <button type='submit' className='submit_form'>
-                        Change data
-                    </button>
-                </form>
+                {
+                    inputs.map(item =>
+                        <Input
+                            key={item.id}
+                            item={item}
+                            value={values[item.name]}
+                            onChange={(e) => changeValue(e, setValues)}
+                        />
+                    )
+                }
+                <Errors errors={errors} />
+                <MyButton>Change data</MyButton>
+            </form>
         </section>
     )
 }

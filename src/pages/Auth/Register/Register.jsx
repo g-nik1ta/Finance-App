@@ -3,7 +3,7 @@ import "pages/Auth/Auth.scss";
 import { useDispatch } from 'react-redux';
 import { setUserAction } from 'store/ProfileReducer';
 import { fetchErrorCode } from 'utils/authFormValidate';
-import PostService from 'API/PostService';
+import AccountService from 'API/AccountService';
 import { useFetching } from 'hooks/useFetching';
 import { Link } from 'react-router-dom';
 import { getRoute } from 'utils/routes';
@@ -11,8 +11,9 @@ import Loader from 'components/UI/Loader/Loader';
 import Input from 'components/UI/Form/Input/Input';
 import Remember from 'components/UI/Form/Remember/Remember';
 import Errors from 'components/UI/Form/Errors/Errors';
-import AuthSocials from 'components/AuthSocials/AuthSocials'; 
+import AuthSocials from 'components/AuthSocials/AuthSocials';
 import { changeValue } from 'utils/form';
+import MyButton from 'components/UI/MyButton/MyButton';
 
 const Register = () => {
     const dispatch = useDispatch();
@@ -54,7 +55,7 @@ const Register = () => {
 
 
     const [fetchAuth, isAuthLoading, authError] = useFetching(async (values) => {
-        const { status, data } = await PostService.registerUser(values);
+        const { status, data } = await AccountService.registerUser(values);
 
         if (status === 'error') {
             setErrors([fetchErrorCode(data)]);
@@ -132,13 +133,8 @@ const Register = () => {
                             changeValues={(e) => changeValue(e, setValues)}
                         />
                     </div>
-                    {
-                        !!errors.length &&
-                        <Errors errors={errors} />
-                    }
-                    <button type='submit' className='submit_form'>
-                        Create an account
-                    </button>
+                    <Errors errors={errors} />
+                    <MyButton>Create an account</MyButton>
                 </form>
                 <AuthSocials setErrors={setErrors} />
                 <span className='register'> Already have an account? <Link to={getRoute('login')} className='sign-up'>Login</Link> </span>
