@@ -1,0 +1,96 @@
+@import "styles/common_styles/index";
+
+.history {
+    margin-top: 40px;
+
+    .head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px 0;
+        border-bottom: 1px solid $grey;
+
+        .title {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            border-right: 1px solid $grey;
+            padding-right: 20px;
+
+            svg {
+                max-width: 46px;
+                max-height: 46px;
+            }
+
+            span {
+                color: #FFF;
+                font-size: 26px;
+            }
+        }
+
+        .total {
+            font-size: 18px;
+            letter-spacing: 2px;
+        }
+    }
+
+    .table {
+        width: 100%;
+
+        .item {
+            width: 100%;
+            text-align: left;
+        }
+
+        .title {
+            min-width: 25%;
+            text-align: left;
+        }
+
+        .wallet_value {
+            text-align: right;
+            width: 75%;
+        }
+
+        .table_head {
+            padding: 24px 0;
+            width: 100%;
+            display: flex;
+            align-items: center;
+
+            .item {
+                color: rgba(98, 102, 109, 0.8);
+                text-transform: uppercase;
+                letter-spacing: 2px;
+                font-size: 14px;
+                font-weight: 700;
+                text-wrap: nowrap;
+            }
+        }
+
+        .table_body {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            gap: 16px;
+
+            .row {
+                width: 100%;
+                display: flex;
+                align-items: center;
+
+                .item {
+                    color: #fff;
+                    letter-spacing: 1px;
+                    font-size: 15px;
+                    font-weight: 600;
+                }
+            }
+        }
+    }
+
+    .history_empty {
+        margin-top: 8px;
+        font-size: 24px;
+    }
+}

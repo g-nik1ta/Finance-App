@@ -8,7 +8,7 @@ const Categories = ({ categories, setRemoveState, setOpenCategory, openCategory 
             {
                 !!categories.length
                     ?
-                    <ul className='undecorated_ul categories'>
+                    <ul className='undecorated_ul categories-list'>
                         {
                             categories.map(item =>
                                 <li

@@ -36,6 +36,10 @@
         margin-top: 24px;
     }
 
+    &+.select_block {
+        margin-top: 24px;
+    }
+
     &.password input {
         padding: 4px 32px 4px 0;
     }

@@ -8,13 +8,47 @@ const usersRef = collection(db, "users");
 
 function wait() {
     return new Promise(resolve => {
-        setTimeout(resolve, 1200);
+        setTimeout(resolve, 4200);
     });
 }
 
 export default class PostService {
     static async getAsyncFetch() {
         await wait();
+    }
+
+    static async addNewExpenses(values) {
+        const { id: uid, title, price, date, category } = values;
+
+        let status = 'error';
+        let data = null;
+        const q = query(usersRef, where("id", "==", uid));
+        const querySnapshot = await getDocs(q);
+
+        if (!querySnapshot.empty) {
+            querySnapshot.forEach(async (doc) => {
+                await updateDoc(doc.ref, {
+                    history: arrayUnion({
+                        id: Date.now(),
+                        title, price, date, category,
+                    })
+                });
+            });
+
+            let arr = []
+            const q_user = query(usersRef, where("id", "==", uid));
+            const querySnapshot_user = await getDocs(q_user);
+            querySnapshot_user.forEach((doc) => {
+                arr.push(doc.data())
+            });
+
+            if (!!arr[0]) {
+                status = 'success';
+                data = arr[0];
+            }
+        }
+
+        return { status, data }
     }
 
     static async removeCategory(values) {

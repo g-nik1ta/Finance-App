@@ -5,8 +5,7 @@ import ViewPasswordOff from 'svg/ViewPasswordOff';
 
 const Input = ({ item, value, onChange, ...props }) => {
     const { type, required, name, placeholder, label } = item;
-
-    const [viewPassword, setViewPassword] = useState(false)
+    const [viewPassword, setViewPassword] = useState(false);
 
     return (
         <div className={"input_wrapper" + (type === 'password' ? ' password' : "")}>

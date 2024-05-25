@@ -65,7 +65,7 @@ export default class AccountService {
                 }
 
                 await AccountService.updateUserTable({
-                    uid, email, remember, name
+                    uid, email, remember, name, 
                 });
 
                 status = 'success';
@@ -92,6 +92,7 @@ export default class AccountService {
             id: uid,
             email,
             name,
+            history: []
         })
     }
 
