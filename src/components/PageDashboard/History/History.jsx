@@ -9,13 +9,13 @@ const History = ({ sortCategory }) => {
     const { history } = useSelector(state => state.ProfileReducer.user);
     const { categories } = useSelector(state => state.ProfileReducer.user);
 
-    const [sortHistory, setSortHistory] = useState(history || []);
+    const [sortHistory, setSortHistory] = useState(history.reverse() || []);
     useEffect(() => {
         if (sortCategory === -1) {
-            setSortHistory(history)
+            setSortHistory(history.reverse())
             return
         }
-        setSortHistory(history.filter(item => item.category === sortCategory))
+        setSortHistory(history.reverse().filter(item => item.category === sortCategory))
     }, [sortCategory, history])
 
     return (
@@ -55,14 +55,14 @@ const History = ({ sortCategory }) => {
                         </div>
                         <div className="table_body">
                             {
-                                sortHistory.reverse().map(item =>
+                                sortHistory.map(item =>
                                     <div className="row" key={item.id}>
                                         <span className="item title">{item.title}</span>
                                         <span className="item category">
                                             {
                                                 item.category
                                                     ?
-                                                    categories.find(category => category.id === item.category)?.name
+                                                    categories.find(category => category.id === item.category)?.name || '-'
                                                     :
                                                     item.type === 'incoming'
                                                         ?

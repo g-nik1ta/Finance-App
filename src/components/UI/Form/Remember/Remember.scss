@@ -30,7 +30,7 @@
         height: 20px;
 
         &:checked::after {
-            transition: 0;
+            transition: all 0s;
             background: linear-gradient(267deg, rgba(114, 242, 255, 0.00) -35%, $light_grey 110%), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='9' viewBox='0 0 12 9' fill='none'%3E%3Cpath d='M0.914062 3.83276L4.50067 7.42012L10.5516 1.36914' stroke='white' stroke-linecap='round'/%3E%3C/svg%3E");
             background-position: 50%;
             background-repeat: no-repeat;
@@ -57,5 +57,31 @@
         margin-left: 8px;
         font-size: 12px;
         font-weight: 200;
+    }
+}
+
+
+@media screen and (min-width: $lg-size-max-width) {
+    .checkbox_wrapper {
+        input {
+            height: 26px;
+
+            &:checked::after {
+                transition: all 0s;
+                background: linear-gradient(267deg, rgba(114, 242, 255, 0.00) -35%, $light_grey 110%), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='17' height='14' viewBox='0 0 12 9' fill='none'%3E%3Cpath d='M0.914062 3.83276L4.50067 7.42012L10.5516 1.36914' stroke='white' stroke-linecap='round'/%3E%3C/svg%3E");
+                background-position: 50%;
+                background-repeat: no-repeat;
+                border: none;
+            }
+
+            &::after {
+                width: 26px;
+            }
+        }
+
+        .input_title {
+            font-size: 15px;
+            margin-left: 16px;
+        }
     }
 }

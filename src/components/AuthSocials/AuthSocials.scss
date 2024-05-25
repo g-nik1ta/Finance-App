@@ -43,3 +43,22 @@
         }
     }
 }
+
+
+@media screen and (min-width: $lg-size-max-width) {
+    .socials_login {
+        span {
+            font-size: 17px;
+        }
+
+        .item {
+            width: 44px;
+            height: 40px;
+
+            svg {
+                width: 60%;
+                height: 60%;
+            }
+        }
+    }
+}

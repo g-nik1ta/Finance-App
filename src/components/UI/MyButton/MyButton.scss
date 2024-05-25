@@ -22,3 +22,10 @@
         }
     }
 }
+
+
+@media screen and (max-width: $sm-size-max-width) {
+    .my_button {
+        padding: 10px;
+    }
+}

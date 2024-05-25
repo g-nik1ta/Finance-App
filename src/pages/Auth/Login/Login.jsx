@@ -109,7 +109,7 @@ const Login = () => {
                             value={values.remember}
                             changeValues={(e) => changeValue(e, setValues)}
                         />
-                        <span className='forgot'> Forgot password </span>
+                        {/* <span className='forgot'> Forgot password </span> */}
                     </div>
                     <Errors errors={errors} />
                     <MyButton>Login</MyButton>

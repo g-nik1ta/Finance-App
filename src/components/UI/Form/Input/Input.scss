@@ -85,3 +85,21 @@
         }
     }
 }
+
+
+@media screen and (min-width: $lg-size-max-width) {
+    .input_wrapper {
+        label {
+            font-size: 22px;
+        }
+
+        input {
+            font-size: 20px;
+        }
+
+        .view_password {
+            max-width: 28px;
+            max-height: 28px;
+        }
+    }
+}
