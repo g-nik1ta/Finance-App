@@ -92,7 +92,8 @@ export default class AccountService {
             id: uid,
             email,
             name,
-            history: []
+            history: [],
+            current_balance: 0,
         })
     }
 

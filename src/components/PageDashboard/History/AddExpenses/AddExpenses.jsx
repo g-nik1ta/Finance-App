@@ -77,7 +77,7 @@ const AddExpenses = () => {
             id: 4,
             name: 'price',
             type: "number",
-            placeholder: '$1.78',
+            placeholder: '1.78',
             required: true,
             label: 'Expenses price',
         },

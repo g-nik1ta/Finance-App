@@ -27,7 +27,7 @@ const History = ({ sortCategory }) => {
                 </div>
                 {
                     !!sortHistory.length &&
-                    <span className="total">$1620.85</span>
+                    <span className="total">₴1620.85</span>
                 }
             </div>
             {
@@ -56,8 +56,8 @@ const History = ({ sortCategory }) => {
                                             }
                                         </span>
                                         <span className="item date">{(item.date).split('-').reverse().join('.')}</span>
-                                        <span className="item price">{item.price}</span>
-                                        <span className="item wallet_value">$4,012.40</span>
+                                        <span className="item price">₴{item.price}</span>
+                                        <span className="item wallet_value">₴4,012.40</span>
                                     </div>
                                 )
                             }

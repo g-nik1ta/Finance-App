@@ -17,6 +17,37 @@ export default class PostService {
         await wait();
     }
 
+    static async updateCurrentBalance(values) {
+        const { id, balance } = values;
+
+        let status = 'error';
+        let data = null;
+        const q = query(usersRef, where("id", "==", id));
+        const querySnapshot = await getDocs(q);
+
+        if (!querySnapshot.empty) {
+            querySnapshot.forEach(async (doc) => {
+                await updateDoc(doc.ref, {
+                    current_balance: balance,
+                });
+            });
+
+            let arr = []
+            const q_user = query(usersRef, where("id", "==", id));
+            const querySnapshot_user = await getDocs(q_user);
+            querySnapshot_user.forEach((doc) => {
+                arr.push(doc.data())
+            });
+
+            if (!!arr[0]) {
+                status = 'success';
+                data = arr[0];
+            }
+        }
+
+        return { status, data }
+    }
+
     static async addNewExpenses(values) {
         const { id: uid, title, price, date, category } = values;
 
