@@ -46,3 +46,10 @@ header {
         }
     }
 }
+
+
+@media screen and (max-width: $md-size-max-width) {
+    header {
+        height: 70px;
+    }
+}

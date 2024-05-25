@@ -98,3 +98,16 @@
         }
     }
 }
+
+
+@media screen and (max-width: $md-size-max-width) {
+    .cash_cards {
+        flex-wrap: wrap;
+
+        .card {
+            width: 100%;
+            max-width: calc(50% - 8px);
+            padding: 18px 24px;
+        }
+    }
+}

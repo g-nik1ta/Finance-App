@@ -103,3 +103,106 @@
         font-size: 24px;
     }
 }
+
+
+@media screen and (max-width: $md-size-max-width) {
+    .history {
+        .head {
+            flex-direction: column;
+            align-items: flex-start;
+
+            .title {
+                border-right: 0;
+                padding-right: 0;
+                padding-bottom: 8px;
+
+                svg {
+                    max-width: 40px;
+                    max-height: 40px;
+                }
+
+                span {
+                    font-size: 24px;
+                }
+            }
+
+            .total {
+                font-size: 16px;
+            }
+        }
+
+        .table {
+            padding-top: 20px;
+
+            .table_head {
+                display: none;
+            }
+
+            .table_body {
+                gap: 0;
+
+                .row {
+                    padding-bottom: 8px;
+                    flex-direction: column;
+                    position: relative;
+
+                    &::after {
+                        content: '';
+                        height: 1px;
+                        width: 50%;
+                        background-color: $grey;
+                        bottom: -8px;
+                        margin-right: auto;
+                        position: relative;
+                    }
+
+                    &+.row {
+                        padding-top: 8px;
+                    }
+
+                    .item {
+                        min-width: 100%;
+                        text-align: left;
+
+                        &.title::before {
+                            content: 'Title: ';
+                        }
+
+                        &.category::before {
+                            content: 'Category: ';
+                        }
+
+                        &.date::before {
+                            content: 'Date: ';
+                        }
+
+                        &.price::before {
+                            content: 'Price: ';
+                        }
+
+                        &.wallet_value::before {
+                            content: 'Wallet value: ';
+                        }
+
+                        &::before {
+                            content: '';
+                            color: rgba(98, 102, 109, 0.8);
+                            text-transform: uppercase;
+                            letter-spacing: 2px;
+                            font-size: 14px;
+                            font-weight: 700;
+                            text-wrap: nowrap;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+@media screen and (max-width: $sm-size-max-width) {
+    .cash_cards .card {
+        max-width: 100%;
+    }
+}

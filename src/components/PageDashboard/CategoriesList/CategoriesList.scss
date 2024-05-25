@@ -28,3 +28,10 @@
         }
     }
 }
+
+
+@media screen and (max-width: $md-size-max-width) {
+    .dashboard-categories {
+        margin-bottom: 24px;
+    }
+}

@@ -221,3 +221,30 @@
         }
     }
 }
+
+
+@media screen and (max-width: $md-size-max-width) {
+    .aside_menu {
+        width: 260px;
+
+        .logo_wrapper {
+            padding: 0 14px;
+        }
+
+        .nav_list .nav_item {
+            padding: 12px 20px;
+
+            &::before {
+                margin-left: -12px;
+            }
+        }
+
+        .select_box {
+            padding: 0 14px;
+
+            .options {
+                width: calc(100% - 28px);
+            }
+        }
+    }
+}
