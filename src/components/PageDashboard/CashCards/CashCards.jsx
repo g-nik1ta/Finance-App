@@ -11,9 +11,12 @@ import { setUserAction } from 'store/ProfileReducer';
 
 const CashCards = () => {
     const dispatch = useDispatch();
-    const { current_balance, id } = useSelector(state => state.ProfileReducer.user);
+    const { current_balance, id, history } = useSelector(state => state.ProfileReducer.user);
     const [currentBalance, setCurrentBalance] = useState(false);
     const [value, setValue] = useState(current_balance || 0);
+    useEffect(() => {
+        setValue(current_balance)
+    }, [current_balance])
 
     const [errors, setErrors] = useState([]);
     const [fetchBalance, isBalanceLoading, balanceError] = useFetching(async (values) => {
@@ -33,7 +36,7 @@ const CashCards = () => {
         if (!balanceError) return
         setErrors([fetchErrorCode(null)]);
     }, [balanceError])
-
+    
     return (
         <div className="cash_cards">
             <div className="card" onClick={() => setCurrentBalance(true)}>
@@ -64,15 +67,23 @@ const CashCards = () => {
             </div>
             <div className="card">
                 <span className="title">General expenses</span>
-                <span className="value">₴586.80</span>
+                <span className="value">₴{
+                    (history.filter(item => item.type === 'expenses').map(item => Number(item.price))).reduce((acc, cur) => acc + cur, 0)
+                }</span>
             </div>
             <div className="card">
                 <span className="title">Total income</span>
-                <span className="value">₴1,034.05</span>
+                <span className="value">₴{
+                    (history.filter(item => item.type === 'incoming').map(item => Number(item.price))).reduce((acc, cur) => acc + cur, 0)
+                }</span>
             </div>
             <div className="card">
                 <span className="title">Profit / Loss</span>
-                <span className="value">₴447.25</span>
+                <span className="value">₴{
+                    (history.filter(item => item.type === 'incoming').map(item => Number(item.price))).reduce((acc, cur) => acc + cur, 0)
+                    -
+                    (history.filter(item => item.type === 'expenses').map(item => Number(item.price))).reduce((acc, cur) => acc + cur, 0)
+                }</span>
             </div>
         </div>
     )

@@ -49,7 +49,7 @@ export default class PostService {
     }
 
     static async addNewExpenses(values) {
-        const { id: uid, title, price, date, category } = values;
+        const { id: uid, title, price, date, category, type, current_balance } = values;
 
         let status = 'error';
         let data = null;
@@ -61,8 +61,18 @@ export default class PostService {
                 await updateDoc(doc.ref, {
                     history: arrayUnion({
                         id: Date.now(),
-                        title, price, date, category,
-                    })
+                        title, price, date, category, type,
+                        current_balance: type === 'expenses'
+                            ?
+                            current_balance - price
+                            :
+                            Number(current_balance) + Number(price)
+                    }),
+                    current_balance: type === 'expenses'
+                        ?
+                        current_balance - price
+                        :
+                        Number(current_balance) + Number(price)
                 });
             });
 

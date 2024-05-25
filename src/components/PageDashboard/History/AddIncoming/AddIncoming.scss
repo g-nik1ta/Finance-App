@@ -1,0 +1,88 @@
+@import "styles/common_styles/index";
+
+.form_wrapper {
+    .add_incoming {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        user-select: none;
+
+        &.open .svg_wrapper {
+            transform: rotate(45deg);
+            background-color: $green;
+
+            svg path {
+                fill: #FFF;
+            }
+        }
+
+        @media (hover: hover) {
+            &:hover {
+                .svg_wrapper {
+                    background-color: $green;
+
+                    svg path {
+                        fill: #FFF;
+                    }
+                }
+
+                span {
+                    color: $green;
+                }
+            }
+        }
+
+        .svg_wrapper {
+            width: 36px;
+            height: 36px;
+            border: 3px solid #12bf6c;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s;
+
+            svg {
+                max-width: 18px;
+                max-height: 18px;
+                transition: all 0.3s;
+
+                path {
+                    transition: all 0.3s;
+                    fill: $green;
+                }
+            }
+        }
+
+        span {
+            font-weight: 600;
+            font-size: 18px;
+            transition: all 0.3s;
+        }
+    }
+
+    form {
+        margin-top: 0;
+        margin-bottom: 0;
+        max-height: 0px;
+        overflow: hidden;
+        transition: all .6s;
+
+        &.open {
+            margin-top: 16px;
+            margin-bottom: 20px;
+            max-height: 370px;
+        }
+
+        .my_button {
+            margin-top: 16px;
+            padding: 12px;
+        }
+
+        .error_wrapper ul {
+            margin-top: 6px;
+            margin-bottom: 0;
+        }
+    }
+}

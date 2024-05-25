@@ -3,6 +3,7 @@ import './History.scss';
 import HistoryExpenses from 'svg/HistoryExpenses';
 import { useSelector } from 'react-redux';
 import AddExpenses from './AddExpenses/AddExpenses';
+import AddIncoming from './AddIncoming/AddIncoming';
 
 const History = ({ sortCategory }) => {
     const { history } = useSelector(state => state.ProfileReducer.user);
@@ -15,11 +16,14 @@ const History = ({ sortCategory }) => {
             return
         }
         setSortHistory(history.filter(item => item.category === sortCategory))
-    }, [sortCategory])
+    }, [sortCategory, history])
 
     return (
         <div className="history">
-            <AddExpenses />
+            <div className='add_wrapper'>
+                <AddExpenses />
+                <AddIncoming />
+            </div>
             <div className="head">
                 <div className="title">
                     <HistoryExpenses />
@@ -27,7 +31,15 @@ const History = ({ sortCategory }) => {
                 </div>
                 {
                     !!sortHistory.length &&
-                    <span className="total">₴1620.85</span>
+                    sortCategory === -1
+                    ?
+                    <span className="total">General expenses in all categories: ₴{
+                        (sortHistory.filter(item => item.type === 'expenses').map(item => Number(item.price))).reduce((acc, cur) => acc + cur, 0)
+                    }</span>
+                    :
+                    <span className="total">General expenses in "{categories.find(category => category.id === sortCategory)?.name}": ₴{
+                        (sortHistory.filter(item => item.type === 'expenses').map(item => Number(item.price))).reduce((acc, cur) => acc + cur, 0)
+                    }</span>
                 }
             </div>
             {
@@ -43,7 +55,7 @@ const History = ({ sortCategory }) => {
                         </div>
                         <div className="table_body">
                             {
-                                sortHistory.map(item =>
+                                sortHistory.reverse().map(item =>
                                     <div className="row" key={item.id}>
                                         <span className="item title">{item.title}</span>
                                         <span className="item category">
@@ -52,12 +64,16 @@ const History = ({ sortCategory }) => {
                                                     ?
                                                     categories.find(category => category.id === item.category)?.name
                                                     :
-                                                    '-'
+                                                    item.type === 'incoming'
+                                                        ?
+                                                        'Incoming'
+                                                        :
+                                                        '-'
                                             }
                                         </span>
                                         <span className="item date">{(item.date).split('-').reverse().join('.')}</span>
                                         <span className="item price">₴{item.price}</span>
-                                        <span className="item wallet_value">₴4,012.40</span>
+                                        <span className="item wallet_value">₴{item.current_balance}</span>
                                     </div>
                                 )
                             }

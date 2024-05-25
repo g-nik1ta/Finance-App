@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './AddExpenses.scss';
+import './AddIncoming.scss';
 import Plus from 'svg/Plus';
 import Input from 'components/UI/Form/Input/Input';
 import Errors from 'components/UI/Form/Errors/Errors';
@@ -11,25 +11,12 @@ import { useFetching } from 'hooks/useFetching';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchErrorCode } from 'utils/authFormValidate';
 import { setUserAction } from 'store/ProfileReducer';
-import Select from 'components/UI/Form/Select/Select';
 
-const AddExpenses = () => {
+const AddIncoming = () => {
     const [openForm, setOpenForm] = useState(false);
     const dispatch = useDispatch();
 
     const user = useSelector(state => state.ProfileReducer.user);
-    const [categories, setCategories] = useState([]);
-    useEffect(() => {
-        if (!user?.categories?.length && user?.categories?.length !== 0) return
-
-        if (user.categories.length <= 0) {
-            setCategories([]);
-            return
-        }
-        setCategories(user.categories.sort((a, b) => Number(a.order) - Number(b.order)));
-    }, [user, user?.categories]);
-
-
     const [errors, setErrors] = useState([]);
     const getCurrentDate = () => {
         let today = new Date();
@@ -53,17 +40,9 @@ const AddExpenses = () => {
             id: 1,
             name: 'title',
             type: "text",
-            placeholder: 'Oranges',
+            placeholder: 'Salary',
             required: true,
-            label: 'Expenses title',
-        },
-        {
-            id: 2,
-            name: 'category',
-            type: "select",
-            placeholder: 'Food',
-            required: false,
-            label: 'Category of expenses',
+            label: 'Incoming title',
         },
         {
             id: 3,
@@ -77,16 +56,16 @@ const AddExpenses = () => {
             id: 4,
             name: 'price',
             type: "number",
-            placeholder: '1.78',
+            placeholder: '25000',
             required: true,
-            label: 'Expenses price',
+            label: 'Incoming amount',
         },
     ]
 
     const [fetchExpenses, isExpensesLoading, expensesError] = useFetching(async (values) => {
         const id = user.id;
         const current_balance = user.current_balance;
-        const { status, data } = await PostService.addNewExpenses({ id, ...values, current_balance, type: 'expenses' });
+        const { status, data } = await PostService.addNewExpenses({ id, ...values, category: '', current_balance, type: 'incoming' });
 
         if (status === 'error') {
             setErrors([fetchErrorCode(data)]);
@@ -99,7 +78,6 @@ const AddExpenses = () => {
             title: '',
             price: '',
             date: getCurrentDate(),
-            category: '',
         })
     });
 
@@ -114,17 +92,7 @@ const AddExpenses = () => {
         title: '',
         price: '',
         date: getCurrentDate(),
-        category: '',
     });
-
-    const selectUpdate = (id) => {
-        setValues(prevState => {
-            return {
-                ...prevState,
-                category: id
-            }
-        });
-    }
 
     const submitHandler = (e) => {
         e.preventDefault();
@@ -134,11 +102,11 @@ const AddExpenses = () => {
 
     return (
         <div className='form_wrapper'>
-            <div className={"add_expenses" + (openForm ? " open" : "")} onClick={() => setOpenForm(!openForm)}>
+            <div className={"add_incoming" + (openForm ? " open" : "")} onClick={() => setOpenForm(!openForm)}>
                 <div className="svg_wrapper">
                     <Plus />
                 </div>
-                <span>Add expenses</span>
+                <span>Add incoming</span>
             </div>
 
             {
@@ -151,34 +119,20 @@ const AddExpenses = () => {
                     <form onSubmit={submitHandler} className={openForm ? "open" : ""}>
                         {
                             inputs.map(item =>
-                                item.type === 'select'
-                                    ?
-                                    <Select
-                                        key={item.id}
-                                        label={item.label}
-                                        title={
-                                            categories.find(category => category.id === values[item.name])?.name ||
-                                            item.placeholder
-                                        }
-                                        value={values[item.name]}
-                                        options={categories.map(item => { return { id: item.id, title: item.name } })}
-                                        optionHandler={selectUpdate}
-                                    />
-                                    :
-                                    <Input
-                                        key={item.id}
-                                        item={item}
-                                        value={values[item.name]}
-                                        onChange={(e) => changeValue(e, setValues)}
-                                    />
+                                <Input
+                                    key={item.id}
+                                    item={item}
+                                    value={values[item.name]}
+                                    onChange={(e) => changeValue(e, setValues)}
+                                />
                             )
                         }
                         <Errors errors={errors} />
-                        <MyButton>Add new expenses</MyButton>
+                        <MyButton>Add new incoming</MyButton>
                     </form>
             }
         </div>
     )
 }
 
-export default AddExpenses;
+export default AddIncoming;

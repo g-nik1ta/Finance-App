@@ -3,7 +3,7 @@ export const changeValue = (e, setValues) => {
 
     if (type === 'checkbox') {
         value = checked;
-    } else value = value.trim('')
+    }
 
     setValues(prevValues => {
         return {

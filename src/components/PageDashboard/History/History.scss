@@ -3,6 +3,15 @@
 .history {
     margin-top: 40px;
 
+    .add_wrapper {
+        display: flex;
+        flex-direction: column;
+
+        .form_wrapper+.form_wrapper {
+            margin-top: 16px;
+        }
+    }
+
     .head {
         display: flex;
         justify-content: space-between;
