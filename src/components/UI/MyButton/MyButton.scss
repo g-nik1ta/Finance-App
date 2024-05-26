@@ -29,3 +29,11 @@
         padding: 10px;
     }
 }
+
+
+@media screen and (max-width: $sm-size-max-width) {
+    .my_button {
+        padding: 8px;
+        font-size: 15px;
+    }
+}

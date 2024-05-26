@@ -50,3 +50,10 @@
         padding: 0 32px;
     }
 }
+
+
+@media screen and (max-width: $sm-size-max-width) {
+    .content_container {
+        margin-left: $mobile_width;
+    }
+}

@@ -10,6 +10,108 @@
     flex-direction: column;
     padding: 24px 0 20px;
 
+    .menu_wrapper {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        z-index: 2;
+    }
+
+
+    .background {
+        width: 100vw;
+        height: 100vh;
+        position: fixed;
+        left: 0;
+        top: 0;
+        transition: all .4s ease-in-out;
+        z-index: 1;
+        visibility: hidden;
+
+        &.active {
+            visibility: visible;
+            background: rgba(0, 0, 0, .5);
+        }
+    }
+
+    .mobile_btn {
+        border-radius: 13px;
+        user-select: none;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        width: $mobile_width;
+
+        &.active {
+            .burger {
+
+                i,
+                &::before,
+                &::after {
+                    height: 3px;
+                    background-color: $green;
+                }
+
+                i {
+                    width: 0;
+                    opacity: 0;
+                }
+
+                &::before {
+                    top: 10px;
+                    transform: rotate(-135deg);
+                }
+
+                &::after {
+                    bottom: 7px;
+                    transform: rotate(315deg);
+                }
+            }
+
+            svg path {
+                fill: $green;
+            }
+        }
+
+        .burger {
+            height: 20px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            &::before,
+            &::after {
+                content: '';
+                position: absolute;
+                transition: .8s all ease-in-out;
+            }
+
+            i {
+                opacity: 1;
+                transition: .6s all ease-in;
+            }
+
+            i,
+            &::before,
+            &::after {
+                border-radius: 20px;
+                width: 26px;
+                height: 4px;
+                display: block;
+                background-color: #313339;
+            }
+
+            &::before {
+                top: 0;
+            }
+
+            &::after {
+                bottom: 0;
+            }
+        }
+    }
+
     .logo_wrapper {
         padding: 0 28px;
         display: flex;
@@ -245,6 +347,62 @@
             .options {
                 width: calc(100% - 28px);
             }
+        }
+    }
+}
+
+
+@media screen and (max-width: $sm-size-max-width) {
+    .aside_menu {
+        padding: 14px 0 20px;
+        width: $mobile_width;
+        overflow-x: hidden;
+        overflow-y: auto;
+        z-index: 1;
+        transition: all .4s ease-in-out;
+        background: #000;
+        max-width: 100vw;
+
+        &::before {
+            z-index: 2;
+            content: '';
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: linear-gradient(0, rgba(18, 191, 107, .28) 0%, rgba(18, 191, 107, 0.1) 20%, rgba(0, 0, 0, 0) 100%);
+        }
+
+        &.active {
+            width: 300px;
+
+            .select_box {
+                opacity: 1;
+                visibility: visible;
+            }
+        }
+
+        .menu_wrapper {
+            min-width: 300px;
+        }
+
+        .nav_list {
+            margin-top: 16px;
+
+            .nav_item {
+                padding: 12px;
+
+                &::before {
+                    display: none;
+                }
+            }
+        }
+
+        .select_box {
+            transition: all .4s ease-in-out;
+            opacity: 0;
+            visibility: hidden;
         }
     }
 }

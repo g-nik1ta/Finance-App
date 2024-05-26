@@ -42,3 +42,17 @@
         }
     }
 }
+
+
+@media screen and (max-width: $sm-size-max-width) {
+    .profile_page {
+        .title {
+            font-size: 28px;
+        }
+    
+        .subtitle {
+            margin-top: 8px;
+            font-size: 22px;
+        }
+    }
+}
