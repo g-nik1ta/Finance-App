@@ -206,3 +206,11 @@
         max-width: 100%;
     }
 }
+
+
+@media screen and (max-width: $sm-size-max-width) {
+    .history {
+        order: 1;
+        margin-top: 0;
+    }
+}

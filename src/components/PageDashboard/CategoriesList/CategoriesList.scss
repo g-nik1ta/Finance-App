@@ -35,3 +35,12 @@
         margin-bottom: 24px;
     }
 }
+
+
+@media screen and (max-width: $sm-size-max-width) {
+    .dashboard-categories {
+        order: 1;
+        margin-top: 24px;
+        margin-bottom: 20px;
+    }
+}
