@@ -31,15 +31,15 @@ const History = ({ sortCategory }) => {
                 </div>
                 {
                     !!sortHistory.length &&
-                    sortCategory === -1
+                    (sortCategory === -1
                     ?
                     <span className="total">General expenses in all categories: ₴{
                         (sortHistory.filter(item => item.type === 'expenses').map(item => Number(item.price))).reduce((acc, cur) => acc + cur, 0)
                     }</span>
                     :
-                    <span className="total">General expenses in "{categories.find(category => category.id === sortCategory)?.name}": ₴{
+                    <span className="total">General expenses in "{categories?.find(category => category.id === sortCategory)?.name}": ₴{
                         (sortHistory.filter(item => item.type === 'expenses').map(item => Number(item.price))).reduce((acc, cur) => acc + cur, 0)
-                    }</span>
+                    }</span>)
                 }
             </div>
             {

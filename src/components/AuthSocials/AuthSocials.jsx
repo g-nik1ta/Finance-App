@@ -7,7 +7,7 @@ import { app } from 'firebase.js';
 import { useDispatch } from 'react-redux';
 import { setUserAction } from 'store/ProfileReducer';
 import { fetchErrorCode } from 'utils/authFormValidate';
-import PostService from 'API/PostService';
+import AccountService from 'API/AccountService';
 
 const AuthSocials = ({ setErrors, login = false }) => {
     const dispatch = useDispatch();
@@ -17,13 +17,18 @@ const AuthSocials = ({ setErrors, login = false }) => {
         const provider = new GoogleAuthProvider();
         try {
             const response = await signInWithPopup(auth, provider);
-            if (!login) {
+            const { data } = await AccountService.getUserDataFromEmail(response?.user?.email);
+
+            if (!login || !data) {
                 const { uid, email, displayName: name } = response.user;
-                await PostService.sendRegisterForm({
-                    uid, email, name
+                await AccountService.updateUserTable({
+                    uid, email, name, password: null
                 });
+                const { data } = await AccountService.getUserDataFromEmail(response?.user?.email);
+                dispatch(setUserAction(data))
+                return
             }
-            dispatch(setUserAction(response.user))
+            dispatch(setUserAction(data))
         } catch (error) {
             setErrors([fetchErrorCode(null)])
         }
@@ -32,13 +37,18 @@ const AuthSocials = ({ setErrors, login = false }) => {
         const provider = new FacebookAuthProvider();
         try {
             const response = await signInWithPopup(auth, provider);
-            if (!login) {
+            const { data } = await AccountService.getUserDataFromEmail(response?.user?.email);
+
+            if (!login || !data) {
                 const { uid, email, displayName: name } = response.user;
-                await PostService.sendRegisterForm({
-                    uid, email, name
+                await AccountService.updateUserTable({
+                    uid, email, name, password: null
                 });
+                const { data } = await AccountService.getUserDataFromEmail(response?.user?.email);
+                dispatch(setUserAction(data))
+                return
             }
-            dispatch(setUserAction(response.user))
+            dispatch(setUserAction(data))
         } catch (error) {
             setErrors([fetchErrorCode(null)])
         }

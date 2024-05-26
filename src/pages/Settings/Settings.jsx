@@ -20,7 +20,7 @@ const Settings = () => {
             </h1>
 
             <div className='flex align_center'>
-                <span className="item_title">My Telegram:</span>
+                <span className="item_title">Contacts:</span>
                 <a href='https://t.me/nekit_tt' target='_blank' className="item">
                     <Telegram />
                 </a>

@@ -65,11 +65,13 @@ export default class AccountService {
                 }
 
                 await AccountService.updateUserTable({
-                    uid, email, remember, name, 
+                    uid, email, remember, name, password
                 });
 
+                const {data} = await AccountService.getUserDataFromEmail(email);
+
                 status = 'success';
-                return user
+                return data
             })
             .catch((error) => {
                 const errorCode = error.code;
@@ -87,13 +89,14 @@ export default class AccountService {
             arr.push(doc.data())
         });
 
-        const { uid, email, name } = formValues;
+        const { uid, email, name, password } = formValues;
         await setDoc(doc(usersRef, String(arr.length + 1)), {
             id: uid,
             email,
             name,
             history: [],
             current_balance: 0,
+            password
         })
     }
 
@@ -133,6 +136,22 @@ export default class AccountService {
     static async getUserData(refreshTokenData) {
         let arr = [];
         const q = query(usersRef, where("id", "==", refreshTokenData.trim()));
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+            arr.push(doc.data())
+        });
+
+        if (!!arr[0]) return {
+            status: 'success', data: arr[0]
+        }
+        return {
+            status: 'error', data: null
+        }
+    }
+
+    static async getUserDataFromEmail(email) {
+        let arr = [];
+        const q = query(usersRef, where("email", "==", email));
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
             arr.push(doc.data())
