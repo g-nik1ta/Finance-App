@@ -16,25 +16,24 @@ import { setUserAction } from 'store/ProfileReducer';
 const AsideMenu = () => {
     const dispatch = useDispatch()
     const location = useLocation();
-    const [openMenu, setOpenMenu] = useState(false);
     const [openSelect, setOpenSelect] = useState(false);
     const ref = useRef();
     const clickFuncRef = useRef();
-
+    
     const user = useSelector(state => state.ProfileReducer.user);
     const auth = getAuth(app);
-
+    
     const openSelectHandler = (e) => {
         const bool = !openSelect;
         setOpenSelect(bool);
-
+        
         if (bool) {
             document.addEventListener('mousedown', clickFuncRef.current);
         } else {
             document.removeEventListener('mousedown', clickFuncRef.current);
         }
     }
-
+    
     const exitHandler = () => {
         signOut(auth).then(() => {
             console.log('Sign out is success');
@@ -44,6 +43,17 @@ const AsideMenu = () => {
             console.error('Ошибка при попытке выйти из аккаунта:', error);;
         });
     }
+
+    const [openMenu, setOpenMenu] = useState(false);
+    useEffect(() => {
+        if (openMenu) {
+            document.querySelector('body').classList.add('no_scroll')
+        } else document.querySelector('body').classList.remove('no_scroll')
+    }, [openMenu])
+
+    useEffect(() => {
+        setOpenMenu(false)
+    }, [location])
 
     useEffect(() => {
         clickFuncRef.current = (e) => {
