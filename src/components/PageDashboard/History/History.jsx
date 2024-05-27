@@ -4,18 +4,21 @@ import HistoryExpenses from 'svg/HistoryExpenses';
 import { useSelector } from 'react-redux';
 import AddExpenses from './AddExpenses/AddExpenses';
 import AddIncoming from './AddIncoming/AddIncoming';
+import CategoriesList from '../CategoriesList/CategoriesList';
 
-const History = ({ sortCategory }) => {
+const History = ({ sortCategory, setSortCategory }) => {
     const { history } = useSelector(state => state.ProfileReducer.user);
     const { categories } = useSelector(state => state.ProfileReducer.user);
 
-    const [sortHistory, setSortHistory] = useState(history.reverse() || []);
+    const [sortHistory, setSortHistory] = useState([]);
     useEffect(() => {
+        const arr = [...history]
         if (sortCategory === -1) {
-            setSortHistory(history.reverse())
+            setSortHistory([...history])
+            setSortHistory([...arr.reverse()])
             return
         }
-        setSortHistory(history.reverse().filter(item => item.category === sortCategory))
+        setSortHistory([...arr.reverse()].filter(item => item.category === sortCategory))
     }, [sortCategory, history])
 
     return (
@@ -42,6 +45,7 @@ const History = ({ sortCategory }) => {
                     }</span>)
                 }
             </div>
+            <CategoriesList sortCategory={sortCategory} setSortCategory={setSortCategory} />
             {
                 !!sortHistory.length
                     ?

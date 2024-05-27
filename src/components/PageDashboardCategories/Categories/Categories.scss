@@ -5,6 +5,7 @@
     margin-top: 8px !important;
     display: flex;
     gap: 8px;
+    flex-wrap: wrap;
 
     .item {
         user-select: none;

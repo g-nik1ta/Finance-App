@@ -18,7 +18,8 @@ const AuthSocials = ({ setErrors, login = false }) => {
         try {
             const response = await signInWithPopup(auth, provider);
             const { data } = await AccountService.getUserDataFromEmail(response?.user?.email);
-
+            
+            AccountService.setUserRefreshToken(response.user.uid, 1)
             if (!login || !data) {
                 const { uid, email, displayName: name } = response.user;
                 await AccountService.updateUserTable({
@@ -28,7 +29,7 @@ const AuthSocials = ({ setErrors, login = false }) => {
                 dispatch(setUserAction(data))
                 return
             }
-            dispatch(setUserAction(data))
+            dispatch(setUserAction(data));
         } catch (error) {
             setErrors([fetchErrorCode(null)])
         }
@@ -39,6 +40,7 @@ const AuthSocials = ({ setErrors, login = false }) => {
             const response = await signInWithPopup(auth, provider);
             const { data } = await AccountService.getUserDataFromEmail(response?.user?.email);
 
+            AccountService.setUserRefreshToken(response.user.uid, 1)
             if (!login || !data) {
                 const { uid, email, displayName: name } = response.user;
                 await AccountService.updateUserTable({

@@ -21,7 +21,7 @@ const Dashboard = () => {
         <section className='dashboard'>
             <CategoriesList sortCategory={sortCategory} setSortCategory={setSortCategory} />
             <CashCards />
-            <History sortCategory={sortCategory} />
+            <History sortCategory={sortCategory} setSortCategory={setSortCategory} />
         </section>
     )
 }

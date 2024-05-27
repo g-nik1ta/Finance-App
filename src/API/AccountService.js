@@ -17,8 +17,8 @@ export default class AccountService {
         await wait();
     }
 
-    static setUserRefreshToken(refreshToken) {
-        const expiresAt = Date.now() + 30 * 24 * 60 * 60 * 1000;
+    static  setUserRefreshToken(refreshToken, days = 30) {
+        const expiresAt = Date.now() + days * 24 * 60 * 60 * 1000;
 
         localStorage.setItem('financeAppRefreshToken', JSON.stringify({
             token: refreshToken,
@@ -37,7 +37,9 @@ export default class AccountService {
                 const { status: status_user, data: data_user } = await AccountService.getUserData(token);
 
                 if (status_user === 'error') return
-                if (remember) AccountService.setUserRefreshToken(userCredential.user.uid)
+                if (remember) {
+                    AccountService.setUserRefreshToken(userCredential.user.uid)
+                } else AccountService.setUserRefreshToken(userCredential.user.uid, 1)
 
                 status = 'success';
                 return data_user
@@ -60,9 +62,10 @@ export default class AccountService {
                 const user = userCredential.user;
                 const { uid, email } = user;
 
+                
                 if (remember) {
                     AccountService.setUserRefreshToken(userCredential.user.uid)
-                }
+                } else AccountService.setUserRefreshToken(userCredential.user.uid, 1)
 
                 await AccountService.updateUserTable({
                     uid, email, remember, name, password
